@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>countdown</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.3/underscore-min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.string/2.0.0/underscore.string.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/datejs/1.0/date.min.js"></script>
+    <script>
+    <!--
+var limit_time = Date.today().setTimeToNow().add(1).minutes().add(3).seconds();
+
+$( function() {
+  _.mixin(_.string.exports());
+
+  $('#events input').on('click', setLimitFromForm);
+  $('#reload-custom-event').on('click', setLimitFromCustomForm);
+
+  displayInputValues();
+  setLimitFromForm();
+  countDown();
+});
+
+function displayInputValues() {
+  events = $('#events input')
+  $.each(events, function(i, ev) {
+    $(ev).siblings('span').text(Date.parse($(ev).val()).toString('yyyy/MM/dd HH:mm:ss'));
+  });
+}
+
+function setLimitFromForm() {
+  setLimit($('#events input:checked').val());
+}
+function setLimitFromCustomForm() {
+  setLimit($('#custom-event').val());
+}
+function setLimit(time) {
+  limit_time = new Date(Date.parse(time));
+}
+
+function getLimitTime() {
+  return limit_time;
+}
+
+function countDown() {
+  currentTime = new Date();
+  limitTime = getLimitTime();
+
+  tmp = Math.floor((limitTime - currentTime) / 1000);
+
+  seconds = tmp;
+  if (seconds < 0) seconds = '------';
+  minutes = Math.floor(seconds / 60 );
+  hours   = Math.floor(minutes / 60);
+  days    = Math.floor(hours / 24);
+
+  day     = Math.floor(tmp / 60 / 60 / 24);
+  hour    = Math.floor(tmp / 60 / 60 - day * 24);
+  minute  = Math.floor(tmp / 60 - day * 24 * 60 - hour * 60);
+  second  = Math.floor(tmp - day * 24 * 60 * 60 - hour * 60 * 60 - minute * 60);
+  msecond = Math.abs(limitTime - currentTime) % 1000;
+
+  $('#information').text("Limit : " + limitTime.toString('yyyy/MM/dd HH:mm:ss') + ",  " +
+                         "Now : " + currentTime.toString('yyyy/MM/dd HH:mm:ss') );
+  $('#counter-of-sec').text(seconds);
+  $('#counter-of-msec').text(day + "-" +
+                             _.pad(hour,    2, 0) + "-" +
+                             _.pad(minute,  2, 0) + "-" +
+                             _.pad(second,  2, 0) + "-" +
+                             _.pad(msecond, 3, 0) );
+
+  if(seconds == '------') {
+    $('#counter-of-sec').removeClass('presto')
+                        .removeClass('prestissimo');
+  } else if(seconds < 600) {
+      $('#counter-of-sec').addClass('prestissimo');
+  } else if(seconds < 1800) {
+      $('#counter-of-sec').addClass('presto');
+  }
+
+  setTimeout( "countDown()", 1 );
+}
+  //-->
+    </script>
+
+    <style type="text/css">
+      @font-face {
+        font-family: "7seg";
+        src: local("7seg"), url("LED7SEG_Standard.ttf") format('truetype');
+        /* cite: http://crow11.cside.com/tori/tori.html */
+      }
+
+      body {
+        background: #000;
+        color: #fff;
+        font-family: sans-serif;
+        width: 1140px;
+        color: #999;
+      }
+
+      p {
+        margin: 0;
+        padding: 0;
+      }
+
+      ul {
+        list-style-type: none;
+      }
+
+      article header {
+        width: 100%;
+        height: 100%;
+        font-size: 18px;
+        text-align: right;
+        color: #999;
+        background: #000;
+        border: 0;
+      }
+
+      article footer {
+        font-family: "7seg", monospace;
+        font-size: 30px;
+        text-align: right;
+        color: #666;
+        margin-top: 8px;
+      }
+
+      #counter-of-sec {
+        font-family: "7seg", monospace;
+        font-size: 150px;
+        text-align: right;
+        background: #000;
+        padding: 16px;
+        color: #f33;
+      }
+
+      #counter-of-sec.presto {
+        -webkit-animation: blink 1s linear infinite;
+        -moz-animation: blink 1s linear infinite;
+        -o-animation: blink 1s linear infinite;
+        animation: blink 1s linear infinite;
+      }
+
+      #counter-of-sec.prestissimo {
+        -webkit-animation: blink .5s linear infinite;
+        -moz-animation: blink .5s linear infinite;
+        -o-animation: blink .5s linear infinite;
+        animation: blink .5s linear infinite;
+      }
+
+      .main-wrapper {
+        height: 200px;
+        padding: 24px;
+        background-size: 30px 30px;
+        background-image: -webkit-linear-gradient( -45deg,
+                                                   #990   0, #990 25%,
+                                                   #000 25%, #000 50%,
+                                                   #990 50%, #990 75%,
+                                                   #000 75%, #000 100%,
+                                                   #990 100% );
+        background-image: -moz-linear-gradient( -45deg,
+                                                #990   0, #990 25%,
+                                                #000 25%, #000 50%,
+                                                #990 50%, #990 75%,
+                                                #000 75%, #000 100%,
+                                                #990 100% );
+        background-image: -o-linear-gradient( -45deg,
+                                              #990   0, #990 25%,
+                                              #000 25%, #000 50%,
+                                              #990 50%, #990 75%,
+                                              #000 75%, #000 100%,
+                                              #990 100% );
+        background-image: linear-gradient( -45deg,
+                                           #990   0, #990 25%,
+                                           #000 25%, #000 50%,
+                                           #990 50%, #990 75%,
+                                           #000 75%, #000 100%,
+                                           #990 100% );
+      }
+
+      @-webkit-keyframes blink {
+        0%   { background: #000; color: #f33; }
+        50%  { background: #600; color: #ccc; }
+        100% { background: #000; color: #f33; }
+      }
+      @-moz-keyframes blink {
+        0%   { background: #000; color: #f33; }
+        50%  { background: #600; color: #ccc; }
+        100% { background: #000; color: #f33; }
+      }
+      @-o-keyframes blink {
+        0%   { background: #000; color: #f33; }
+        50%  { background: #600; color: #ccc; }
+        100% { background: #000; color: #f33; }
+      }
+      @keyframes blink {
+        0%   { background: #000; color: #f33; }
+        50%  { background: #600; color: #ccc; }
+        100% { background: #000; color: #f33; }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <p>Sorry, I.E. ha DAME!!!</p>
+    </header>
+
+    <article id="main">
+      <section>
+        <header>
+          <p id="information"></p>
+        </header>
+
+        <div class='main-wrapper'>
+          <p id="counter-of-sec"></p>
+        </div>
+
+        <footer>
+          <p id="counter-of-msec"></p>
+        </footer>
+      </section>
+
+      <section id="selector">
+        <form id="events" name="select">
+          <ul>
+            <li>
+              <label>
+                <input type="radio" name="limit" value="2012/12/31 23:59:59" checked />イベントその１ - <span class="time"></span>
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="radio" name="limit" value="2020/1/1" />イベントその２ - <span class="time"></span>
+              </label>
+            </li>
+          </ul>
+        </form>
+
+        <form>
+          <input id="custom-event" type="textfield" placeholder="2013/1/1 0:0:0" />
+          <input id="reload-custom-event" type="button" value="更新" onSubmit="return false" />
+        </form>
+      </section>
+    </article>
+  </body>
+</html>
